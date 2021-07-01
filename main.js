@@ -1,55 +1,16 @@
-const getJokes = async () => {
-    const url = 'https://icanhazdadjoke.com/';
-    try {
-        const response = await fetch(url);
-        if (response.ok) {
-            const jsonResponse = await response.json();
-            console.log(jsonResponse);
-            return jsonResponse;
-        }
-    } catch (error) {
-        console.log(error);
-    }
+const jokeUrl = 'https://icanhazdadjoke.com/';
+const jokeField = document.getElementById('joke');
+const jokeBtn = document.getElementById('button');
+
+const getJoke = async (e) => {
+    e.preventDefault();
+    const joke = await fetch(jokeUrl, {
+        headers: { Accept: 'application/json' },
+    });
+    const jokeData = await joke.json();
+    jokeField.innerHTML = jokeData.joke;
 };
 
-const postJokes = async () => {
-    const url = 'https://icanhazdadjoke.com/';
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                Accept: text / plain,
-                Accept: text / html,
-            },
-        });
-        if (response.ok) {
-            const jsonResponse = await response.json();
-            renderResponse(jsonResponse);
-        }
-    } catch (error) {
-        console.log(error);
-    }
-};
+jokeBtn.addEventListener('click', getJoke);
 
-const jokeField = document.querySelector('#joke');
-const btn = document.querySelector('#button');
-
-const getRandomJoke = () => {
-    let jokeContent = createJokeHTML(jokes);
-    jokeField.append(jokeContent);
-};
-
-const createJokeHTML = (jokes) => {
-    return `<p>${jokes}</p>`;
-};
-
-const displayJoke = (event) => {
-    event.preventDefault();
-    while (jokeField.firstChild) {
-        jokeField.removeChild(jokeField.firstChild);
-    }
-    postJokes();
-};
-
-btn.addEventListener('click', displayJoke);
+//document.addEventListener('DOMContentLoaded', getJoke); - to load a random joke on page load
